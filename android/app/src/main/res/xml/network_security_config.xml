@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  The Vesper node is served over plain HTTP on the loopback interface, and paired
+  devices are reached by LAN address. Android cannot whitelist private IP ranges
+  per-domain, so cleartext is permitted app-wide.
+
+  What protects the mesh is not TLS but the pairing key: every /link request is
+  signed over a timestamp, a single-use nonce, and a SHA-256 of the body, and a
+  device that has not paired has no key. Run Vesper only on networks you trust,
+  or tunnel it (see docs/SECURITY.md).
+-->
+<network-security-config>
+    <base-config cleartextTrafficPermitted="true">
+        <trust-anchors>
+            <certificates src="system" />
+        </trust-anchors>
+    </base-config>
+</network-security-config>

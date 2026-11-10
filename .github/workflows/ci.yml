@@ -1,0 +1,42 @@
+name: ci
+
+on:
+  push:
+    branches: ['**']
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Install
+        run: npm ci
+
+      - name: Typecheck
+        run: npm run typecheck
+
+      - name: Browser engine
+        run: npm run test:browser
+
+      - name: CLI crew
+        run: npm run test:crew
+
+      - name: Updates
+        run: npm run test:update
+
+      - name: Connectors
+        run: npm run test:connectors
+
+      - name: Build the console
+        run: npm run build

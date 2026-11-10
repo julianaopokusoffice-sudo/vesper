@@ -1,0 +1,113 @@
+<!doctype html>
+<html lang="en" data-theme="dark">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <meta name="color-scheme" content="dark" />
+    <title>Vesper</title>
+    <link rel="stylesheet" href="boot.css" />
+  </head>
+  <body>
+    <div class="grain" aria-hidden="true"></div>
+    <main class="shell">
+      <header class="head">
+        <div class="brand">
+          <span class="mark" aria-hidden="true">◆</span>
+          <span class="wordmark">Vesper</span>
+        </div>
+        <span class="build" id="build">android · node runtime</span>
+      </header>
+
+      <section class="hero">
+        <h1>Your machine, in your pocket.</h1>
+        <p class="lede">
+          A real Linux userland and the Vesper agent runtime, installed on demand and kept
+          on this device. No account, no server of ours.
+        </p>
+      </section>
+
+      <section class="card" id="runtime-card">
+        <div class="card-head">
+          <div>
+            <h2>Linux runtime</h2>
+            <p class="sub" id="runtime-sub">Checking this device…</p>
+          </div>
+          <span class="pill" id="runtime-pill" data-state="idle">checking</span>
+        </div>
+
+        <div class="meter" id="meter" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
+          <span class="meter-fill" id="meter-fill"></span>
+        </div>
+        <p class="progress" id="progress" role="status" aria-live="polite">Nothing downloaded yet.</p>
+
+        <div class="actions">
+          <button class="btn primary" id="install" type="button">Prepare Linux</button>
+          <button class="btn" id="start" type="button">Start console</button>
+          <button class="btn ghost" id="stop" type="button" hidden>Stop</button>
+        </div>
+        <p class="foot">
+          First run downloads an Ubuntu base root filesystem and the Node runtime (~90 MB).
+          Afterwards it runs entirely offline.
+        </p>
+      </section>
+
+      <section class="card" id="console-card" hidden>
+        <div class="card-head">
+          <div>
+            <h2>Console</h2>
+            <p class="sub" id="console-sub">The full Vesper interface, served by this phone.</p>
+          </div>
+          <span class="pill" id="console-pill" data-state="idle">offline</span>
+        </div>
+        <div class="actions">
+          <button class="btn primary" id="open" type="button">Open console</button>
+        </div>
+        <p class="foot" id="console-url"></p>
+      </section>
+
+      <section class="card" id="peer-card">
+        <div class="card-head">
+          <div>
+            <h2>Another device</h2>
+            <p class="sub">Open a paired laptop, desktop, or server on the same network.</p>
+          </div>
+        </div>
+        <label class="field">
+          <span>Address</span>
+          <input
+            id="peer"
+            type="url"
+            inputmode="url"
+            autocomplete="off"
+            autocapitalize="off"
+            spellcheck="false"
+            placeholder="192.168.1.20:8787"
+          />
+        </label>
+        <div class="actions">
+          <button class="btn" id="open-peer" type="button">Connect</button>
+        </div>
+        <p class="foot">
+          Pairing happens inside the console, under <strong>Devices</strong>. One code links both
+          directions, so either device can drive the other.
+        </p>
+      </section>
+
+      <section class="card logs" id="logs-card">
+        <button class="logs-head" id="logs-toggle" type="button" aria-expanded="false">
+          <span>Runtime log</span>
+          <span class="chev" aria-hidden="true">›</span>
+        </button>
+        <pre class="log" id="log" hidden aria-live="polite"></pre>
+      </section>
+
+      <footer class="foot-note">
+        <p>
+          Vesper is open source. Keys, threads, and files stay on this device; paired devices talk
+          directly over your local network.
+        </p>
+      </footer>
+    </main>
+    <script src="boot.js"></script>
+  </body>
+</html>

@@ -1,0 +1,16 @@
+ext {
+    minSdkVersion = 26
+    compileSdkVersion = 35
+    // 28 is deliberate: from Android 10 (API 29) the platform refuses to execute
+    // files written into an app's data directory. PRoot must exec the guest
+    // `/bin/sh` and everything below it, so the APK has to keep the pre-29
+    // exec rule. This is the same trade-off Termux, UserLAnd, and Andronix make.
+    // It means sideloading rather than a Play Store distribution.
+    targetSdkVersion = 28
+
+    androidxActivityVersion = '1.9.3'
+    androidxAppCompatVersion = '1.7.0'
+    androidxCoreVersion = '1.13.1'
+    androidxCoordinatorLayoutVersion = '1.2.0'
+    commonsCompressVersion = '1.26.2'
+}

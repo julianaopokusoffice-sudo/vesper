@@ -1,0 +1,28 @@
+{
+  "name": "notes",
+  "version": "1.0.0",
+  "description": "Append and read notes stored in your workspace. Demonstrates a JS plugin that writes to disk.",
+  "author": "Vesper core",
+  "kind": "js",
+  "entry": "index.mjs",
+  "tools": [
+    {
+      "name": "note_add",
+      "description": "Append a timestamped note to NOTES.md in the workspace.",
+      "requiresApproval": true,
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "text": { "type": "string", "description": "The note to append" },
+          "tag": { "type": "string", "description": "Optional tag, e.g. 'decision'" }
+        },
+        "required": ["text"]
+      }
+    },
+    {
+      "name": "note_list",
+      "description": "List the notes currently stored in NOTES.md.",
+      "parameters": { "type": "object", "properties": {} }
+    }
+  ]
+}

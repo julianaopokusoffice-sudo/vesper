@@ -1,0 +1,40 @@
+{
+  "name": "git",
+  "version": "1.0.0",
+  "description": "Read-only access to the repository in your workspace: status, recent history, and diffs.",
+  "author": "Vesper core",
+  "kind": "command",
+  "tools": [
+    {
+      "name": "git_status",
+      "description": "Show branch and working-tree status of the workspace repository.",
+      "parameters": { "type": "object", "properties": {} },
+      "command": "git",
+      "args": ["status", "--short", "--branch"]
+    },
+    {
+      "name": "git_log",
+      "description": "Show recent commits as a compact log.",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "limit": { "type": "number", "description": "How many commits, default 10" }
+        }
+      },
+      "command": "git",
+      "args": ["log", "--oneline", "--decorate", "-n", "{{limit}}"]
+    },
+    {
+      "name": "git_diff",
+      "description": "Show the unstaged diff, optionally limited to one path.",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "path": { "type": "string", "description": "Optional file or directory to diff" }
+        }
+      },
+      "command": "git",
+      "args": ["diff", "--stat", "--patch", "{{path}}"]
+    }
+  ]
+}

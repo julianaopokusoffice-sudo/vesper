@@ -1,0 +1,144 @@
+{
+  "name": "vesper",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Vesper — an open-source, local-first multi-agent console. Your keys, your models, your machine.",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/julianaopokusoffice-sudo/vesper.git"
+  },
+  "type": "module",
+  "main": "electron/main.cjs",
+  "bin": {
+    "vesper": "cli/vesper.mjs"
+  },
+  "scripts": {
+    "cli": "node cli/vesper.mjs",
+    "mobile:runtime": "node scripts/fetch-runtime.mjs",
+    "mobile:payload": "node scripts/build-mobile-payload.mjs",
+    "mobile:sync": "npm run mobile:payload && cap sync android",
+    "mobile:open": "cap open android",
+    "mobile:apk": "npm run mobile:sync && cd android && gradle assembleDebug",
+    "dev": "concurrently -k -n server,web -c yellow,cyan \"npm:dev:server\" \"npm:dev:web\"",
+    "dev:server": "tsx watch server/index.ts",
+    "dev:web": "vite",
+    "dev:desktop": "concurrently -k -n server,web,electron -c yellow,cyan,magenta \"npm:dev:server\" \"npm:dev:web\" \"wait-on tcp:3000 && cross-env VESPER_DEV=1 electron .\"",
+    "build": "npm run typecheck && vite build",
+    "build:server": "esbuild server/index.ts --bundle --platform=node --format=esm --target=node22 --outfile=dist/server.mjs --log-level=warning",
+    "build:desktop": "npm run build && npm run build:server",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "test:link": "node scripts/test-link.mjs",
+    "test:visuals": "node --import tsx scripts/test-visuals.ts",
+    "test:connectors": "node --import tsx scripts/test-connectors.ts",
+    "test:browser": "node --import tsx scripts/test-browser.ts",
+    "test:crew": "node --import tsx scripts/test-cli-crew.ts",
+    "test:update": "node --import tsx scripts/test-update.ts",
+    "start": "node --import tsx server/index.ts",
+    "dist:win": "npm run build:desktop && electron-builder --win nsis",
+    "dist:linux": "npm run build:desktop && electron-builder --linux AppImage",
+    "dist:dir": "npm run build:desktop && electron-builder --dir"
+  },
+  "dependencies": {
+    "@capacitor/android": "^7.6.9",
+    "@capacitor/core": "^7.6.9",
+    "@hono/node-server": "^2.1.6",
+    "clsx": "^2.1.1",
+    "electron-updater": "^6.8.11",
+    "highlight.js": "^11.11.1",
+    "hono": "^4.10.6",
+    "lucide-react": "^0.554.0",
+    "mermaid": "^12.2.0",
+    "motion": "^12.23.24",
+    "react": "^19.2.0",
+    "react-dom": "^19.2.0",
+    "react-markdown": "^10.1.0",
+    "remark-gfm": "^4.0.1",
+    "thinking-orbs": "^0.3.2",
+    "three": "^0.186.1",
+    "unpdf": "^1.9.1",
+    "zustand": "^5.0.8"
+  },
+  "devDependencies": {
+    "@capacitor/cli": "^7.6.9",
+    "@tailwindcss/vite": "^4.1.17",
+    "@types/node": "^24.10.1",
+    "@types/react": "^19.2.7",
+    "@types/react-dom": "^19.2.3",
+    "@types/three": "^0.186.0",
+    "@vitejs/plugin-react": "^5.1.1",
+    "concurrently": "^9.2.1",
+    "cross-env": "^10.1.0",
+    "electron": "^44.0.0",
+    "electron-builder": "^26.0.12",
+    "esbuild": "^0.25.12",
+    "tailwindcss": "^4.1.17",
+    "tsx": "^4.20.6",
+    "typescript": "^5.9.3",
+    "vite": "^7.2.2",
+    "wait-on": "^9.0.1"
+  },
+  "build": {
+    "appId": "dev.vesper.console",
+    "productName": "Vesper",
+    "directories": {
+      "output": "release",
+      "buildResources": "build"
+    },
+    "files": [
+      "dist/**",
+      "electron/**",
+      "package.json"
+    ],
+    "asar": true,
+    "electronFuses": {
+      "runAsNode": true
+    },
+    "extraResources": [
+      {
+        "from": "data",
+        "to": "data"
+      },
+      {
+        "from": "dist/server.mjs",
+        "to": "server/server.mjs"
+      },
+      {
+        "from": "cli",
+        "to": "cli"
+      }
+    ],
+    "win": {
+      "target": [
+        {
+          "target": "nsis",
+          "arch": [
+            "x64",
+            "arm64"
+          ]
+        }
+      ]
+    },
+    "publish": [
+      {
+        "provider": "github",
+        "owner": "alpha-1-design",
+        "repo": "vesper"
+      }
+    ],
+    "nsis": {
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true,
+      "perMachine": false,
+      "include": "build/installer.nsh"
+    },
+    "linux": {
+      "target": [
+        "AppImage"
+      ],
+      "category": "Development",
+      "maintainer": "Vesper Contributors",
+      "executableName": "vesper"
+    }
+  }
+}

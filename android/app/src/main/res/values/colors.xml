@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="vesper_ink">#0E0E11</color>
+    <color name="vesper_ink_raised">#1B1B20</color>
+    <color name="vesper_accent">#F0B45A</color>
+    <color name="vesper_foreground">#F2F0EC</color>
+</resources>

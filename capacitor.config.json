@@ -1,0 +1,14 @@
+{
+  "appId": "dev.vesper.app",
+  "appName": "Vesper",
+  "webDir": "mobile/web",
+  "loggingBehavior": "debug",
+  "android": {
+    "allowMixedContent": true,
+    "captureInput": true,
+    "webContentsDebuggingEnabled": false
+  },
+  "server": {
+    "androidScheme": "https"
+  }
+}

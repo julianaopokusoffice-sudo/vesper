@@ -1,0 +1,30 @@
+node_modules
+dist
+# Generated desktop staging, but the NSIS include is source.
+build/*
+!build/installer.nsh
+release
+.vesper
+.runtime-cache
+*.log
+.DS_Store
+.env
+.env.*
+!.env.example
+artifacts
+
+# Android: generated build output and the (large) Linux runtime payload.
+android/.gradle
+android/build
+android/app/build
+android/local.properties
+android/app/src/main/assets/payload
+android/app/src/main/assets/runtime
+android/app/src/main/assets/runtime.json
+android/runtime/artifacts
+android/runtime/runtime.json
+android/app/src/main/assets/capacitor.config.json
+android/app/src/main/assets/capacitor.plugins.json
+android/app/src/main/assets/public
+android/capacitor.settings.gradle
+android/app/capacitor.build.gradle
