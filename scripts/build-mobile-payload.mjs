@@ -16,6 +16,9 @@ import { execFileSync } from 'node:child_process';
 import { cpSync, existsSync, mkdirSync, rmSync, writeFileSync } from 'node:fs';
 import { dirname, join, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
+// Call esbuild's JS API. Its `bin/esbuild` is a JS shim on Windows but the
+// native ELF binary on Linux, so spawning it with `node` breaks CI there.
+import { build as esbuildBuild } from 'esbuild';
 
 const root = resolve(dirname(fileURLToPath(import.meta.url)), '..');
 const assets = join(root, 'android', 'app', 'src', 'main', 'assets');
@@ -37,15 +40,15 @@ runNodeTool('vite/bin/vite.js', ['build']);
 
 console.log('2/4  bundling the server');
 mkdirSync(join(root, 'build', 'mobile'), { recursive: true });
-runNodeTool('esbuild/bin/esbuild', [
-  'server/index.ts',
-  '--bundle',
-  '--platform=node',
-  '--format=esm',
-  '--target=node22',
-  '--outfile=build/mobile/server.mjs',
-  '--log-level=warning',
-]);
+await esbuildBuild({
+  entryPoints: [join(root, 'server', 'index.ts')],
+  bundle: true,
+  platform: 'node',
+  format: 'esm',
+  target: 'node22',
+  outfile: join(root, 'build', 'mobile', 'server.mjs'),
+  logLevel: 'warning',
+});
 
 console.log('3/4  assembling assets/payload');
 mkdirSync(assets, { recursive: true });
