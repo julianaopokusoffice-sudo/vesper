@@ -85,6 +85,10 @@ jobs:
           java-version: 21
 
       - uses: android-actions/setup-android@v3
+        with:
+          # The action's default `tools` package no longer exists in Google's
+          # SDK repo, which makes sdkmanager exit 1. Install only what's needed.
+          packages: 'platform-tools'
 
       - uses: gradle/actions/setup-gradle@v4
         with:
