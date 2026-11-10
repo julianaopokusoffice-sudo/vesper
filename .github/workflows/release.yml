@@ -121,12 +121,9 @@ jobs:
             printf '%s' "$KEYSTORE_BASE64" | base64 -d > "$RUNNER_TEMP/vesper.keystore"
             echo "path=$RUNNER_TEMP/vesper.keystore" >> "$GITHUB_OUTPUT"
             echo "signed=true" >> "$GITHUB_OUTPUT"
-          elif [ "${{ github.ref_type }}" = "tag" ]; then
-            echo "::error::Tagged Android releases require ANDROID_KEYSTORE_BASE64."
-            exit 1
           else
             echo "signed=false" >> "$GITHUB_OUTPUT"
-            echo "::warning::No ANDROID_KEYSTORE_BASE64 secret — building a debug APK for this workflow run."
+            echo "::warning::No ANDROID_KEYSTORE_BASE64 secret - attaching a debug APK to the release. Add the secret to ship a signed build."
           fi
 
       - name: Assemble

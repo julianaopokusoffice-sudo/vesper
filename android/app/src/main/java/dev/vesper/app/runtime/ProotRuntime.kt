@@ -85,10 +85,11 @@ object ProotRuntime {
             add("VESPER_PORT=$PORT")
             add("VESPER_NODE_KIND=phone")
             add("VESPER_HOME=/root/.vesper")
-            add("VESPER_WORKSPACE=/root/workspace")                add("/opt/node/bin/node")
-                // Bundled two directories below the app root: paths.ts derives
-                // the data/ directory from `import.meta.url` at ../../.
-                add("/opt/vesper/server/server.mjs")
+            add("VESPER_WORKSPACE=/root/workspace")
+            add("/opt/node/bin/node")
+            // Bundled two directories below the app root: paths.ts derives
+            // the data/ directory from `import.meta.url` at ../../.
+            add("/opt/vesper/server/server.mjs")
         }
     }
 }
