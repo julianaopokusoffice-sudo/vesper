@@ -161,3 +161,37 @@ jobs:
         with:
           files: vesper-arm64*.apk
           generate_release_notes: true
+
+  cli:
+    name: cli
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Stage the CLI
+        run: |
+          mkdir -p cli-out
+          cp cli/vesper.mjs cli-out/vesper.mjs
+          chmod +x cli-out/vesper.mjs
+          {
+            echo "Vesper CLI $(node -p "require('./package.json').version")"
+            echo "Requires Node 20+ (no dependencies, no build step)."
+            echo "Run: node vesper.mjs"
+            echo "Or copy vesper.mjs to a folder on PATH and chmod +x to call it as 'vesper'."
+          } > cli-out/README.txt
+          ls -lh cli-out
+
+      - name: Upload the CLI
+        uses: actions/upload-artifact@v4
+        with:
+          name: vesper-cli
+          path: cli-out/*
+          if-no-files-found: error
+
+      - name: Attach to the release
+        if: github.ref_type == 'tag'
+        uses: softprops/action-gh-release@v2
+        with:
+          files: cli-out/*
+          generate_release_notes: true
